@@ -1,0 +1,36 @@
+#!env python3
+"""
+HackaGame - Game - TicTacToe 
+"""
+from re import S
+import sys, os, random
+import gameEngine as gttt
+
+# Local HackaGame:
+sys.path.insert(1, __file__.split('gameTictactoe')[0])
+from hackapy.command import Command, Option
+
+# Commands:
+cmd= Command(
+        "start-server",
+        [
+            Option( "port", "p", default=1400 ),
+            Option( "number", "n", 2, "number of games" )
+        ],
+        (
+            "star a server fo gameTicTactoe on the machin. "
+            "ARGUMENTS refers to game mode: classic or ultimate."
+        )
+    )
+cmd.process()
+
+if cmd.ready() :
+    if cmd.argument() == "ultimate" :
+        game= gttt.GameTTT( "ultimate" )
+    else :
+        game= gttt.GameTTT( "classic" )
+else :
+    print( cmd.help() )
+    exit()
+
+game.start( cmd.option("number"), cmd.option("port") )

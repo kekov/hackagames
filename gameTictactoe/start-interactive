@@ -1,0 +1,30 @@
+#!env python3
+"""
+HackaGame - Game - TicTacToe 
+"""
+
+import gameEngine as gttt
+from hackapy.command import Command, Option
+from playerInteractive import PlayerShell as Player
+from playerFirstAI import AutonomousPlayer as Oponent
+
+# Define a command interpreter: 2 options: host address and port:
+cmd= Command(
+    "start-interactive",
+    [
+        Option( "number", "n", 1, "number of games" )
+    ],
+    "Start interactive gamePy421. ARGUMENTS can be: solo or duo" )
+# Process the command line: 
+cmd.process()
+if not cmd.ready() :
+    print( cmd.help() )
+    exit()
+
+mode= "classic"
+if cmd.argument() == "ultimate" :
+    mode= "ultimate"
+
+game= gttt.GameTTT( mode )
+player= Player()
+game.local( [player, Oponent()], cmd.option("number") )
